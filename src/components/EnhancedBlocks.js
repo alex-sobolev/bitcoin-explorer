@@ -10,22 +10,29 @@ import * as actions from '../actions';
 
 const messages = path(['messages', 'tooltips', 'blockListHeader'], config);
 
-class Blocks extends Component {
+class EnhancedBlocks extends Component {
+  state = {
+    blocks: []
+  };
+
   getRow = block => {
+    const size = (Number(block.size) / 1000).toFixed(1);
     const age = moment(block.time * 1000).fromNow();
+    const fee = (Number(block.fee) / 100000000).toFixed(8);
 
     return (
       <TableRow key={uniqid()}>
-        <TableRowColumn>{block.height}</TableRowColumn>
-        <TableRowColumn>{age}</TableRowColumn>
-        <TableRowColumn>{block.hash}</TableRowColumn>
-        <TableRowColumn>{block.main_chain ? 'True' : 'False'}</TableRowColumn>
+        <TableRowColumn className="height">{block.height}</TableRowColumn>
+        <TableRowColumn className="age">{age}</TableRowColumn>
+        <TableRowColumn className="transactions">{block.n_tx}</TableRowColumn>
+        <TableRowColumn className="fee">{ fee }</TableRowColumn>
+        <TableRowColumn className="size">{ size }</TableRowColumn>
       </TableRow>
     )
   };
 
   componentDidMount() {
-    this.props.getBlocks();
+    this.props.getEnhancedBlocks();
   }
 
   render() {
@@ -35,12 +42,13 @@ class Blocks extends Component {
           <TableRow>
             <TableHeaderColumn tooltip={messages.height}>Height</TableHeaderColumn>
             <TableHeaderColumn tooltip={messages.age}>Age</TableHeaderColumn>
-            <TableHeaderColumn tooltip={messages.hash}>Hash</TableHeaderColumn>
-            <TableHeaderColumn tooltip={messages.mainChain}>Main Chain</TableHeaderColumn>
+            <TableHeaderColumn tooltip={messages.transactions}>Transactions</TableHeaderColumn>
+            <TableHeaderColumn tooltip={messages.fee}>Fee (BTC)</TableHeaderColumn>
+            <TableHeaderColumn tooltip={messages.size}>Size (kB)</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody stripedRows={true} displayRowCheckbox={false} showRowHover={false}>
-          {this.props.blocks.map(this.getRow)}
+          {this.props.enhancedBlocks.map(this.getRow)}
         </TableBody>
       </Table>
     );
@@ -48,12 +56,12 @@ class Blocks extends Component {
 }
 
 const mapStateToProps = state => ({
-  blocks: state.blocks
+  enhancedBlocks: state.enhancedBlocks
 });
 
 const matchDispatchToProps = dispatch =>
   bindActionCreators({
-    getBlocks: actions.blocksRequested
+    getEnhancedBlocks: actions.enhancedBlocksRequested
   }, dispatch);
 
-export default connect(mapStateToProps, matchDispatchToProps)(Blocks);
+export default connect(mapStateToProps, matchDispatchToProps)(EnhancedBlocks);

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import test from './testReducer';
+import enhancedBlocks from './enhancedBlocks';
+import blocks from './blocks';
 
 export default combineReducers({
-  test
+  enhancedBlocks,
+  blocks
 });

@@ -25,10 +25,23 @@ const getSingleBlockDetailsByHash = async (blockHash = '') => {
   }
 };
 
-const getTodaysBlocksDetails = (blockHashes = []) => {
+const getTodaysEnhancedBlocks = (blockHashes = []) => {
   const blocksPromised = blockHashes.map(getSingleBlockDetailsByHash);
 
   return Promise.all(blocksPromised).then(blocks => blocks.map(block => block.data));
+};
+
+const getTodaysBlocks = async () => {
+  const currentTime = Date.now();
+
+  try {
+    const data = await axios.get(`https://blockchain.info/blocks/${currentTime}?format=json`);
+    const blocks = path(['data', 'blocks'], data);
+
+    return blocks;
+  } catch(err) {
+    throw new Error(`Could not get blocks: ${err}`);
+  }
 };
 
 const get24HourBitcoinStats = async() => {
@@ -41,8 +54,9 @@ const get24HourBitcoinStats = async() => {
 const api = {
   getTodaysBlocksHashes,
   getSingleBlockDetailsByHash,
-  getTodaysBlocksDetails,
-  get24HourBitcoinStats
+  getTodaysEnhancedBlocks,
+  get24HourBitcoinStats,
+  getTodaysBlocks
 };
 
 export default api;
