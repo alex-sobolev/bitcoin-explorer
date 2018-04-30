@@ -1,32 +1,40 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import './App.scss';
+import styled, { injectGlobal } from 'styled-components';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import globalStyles from '../globalStyles';
+import Home from './Home';
+import Block from './Block';
+import Blocks from './Blocks';
+import Transaction from './Transaction';
 
-const User = ({ match }) => <h1>User info {match.params.username}</h1>;
+injectGlobal`
+  ${globalStyles}
+`;
 
-export class App extends Component {
+const AppWrapper = styled.div``;
+
+class App extends Component {
+  state = {
+    jack: '3d'
+  };
+
   render() {
     return (
-      <BrowserRouter>
-        <div className="App">
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/block">Block</Link>
-            </li>
-            <li>
-              <Link to="/user">User</Link>
-            </li>
-          </ul>
-          <Route path="/" exact render={() => <h1 className="header">Bitcoin blocks</h1>} />
-
-          <Route path="/block" exact render={() => <h1 className="header">Specific block details</h1>} />
-
-          <Route path="/user/:username" exact component={User} />
-        </div>
-      </BrowserRouter>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <AppWrapper>
+          <Tabs>
+            <Tab label="Home"><Home /></Tab>
+            <Tab label="Blocks"><Blocks limit={10}/></Tab>
+            <Tab label="Block"><Block /></Tab>
+            <Tab label="Transaction"><Transaction /></Tab>
+          </Tabs>
+        </AppWrapper>
+      </MuiThemeProvider>
     );
   }
 }
+
+export default App;

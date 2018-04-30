@@ -1,4 +1,4 @@
-import testReducer from './testReducer';
+import testReducer from '../../reducers/testReducer';
 
 describe('testReducer', () => {
   it('should return previous state for unknown action type', () => {
