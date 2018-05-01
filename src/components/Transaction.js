@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
-const TransactionDetails = styled.div``;
-
-class Blocks extends Component {
+class Transaction extends Component {
   render() {
     return (
       <div>
-        <TransactionDetails>Transaction Details: information about a particular transaction</TransactionDetails>
+        Transaction details here
       </div>
     );
   }
 }
 
-export default Blocks;
+export default Transaction;

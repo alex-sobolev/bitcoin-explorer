@@ -11,10 +11,6 @@ import * as actions from '../actions';
 const messages = path(['messages', 'tooltips', 'blockListHeader'], config);
 
 class EnhancedBlocks extends Component {
-  state = {
-    blocks: []
-  };
-
   getRow = block => {
     const size = (Number(block.size) / 1000).toFixed(1);
     const age = moment(block.time * 1000).fromNow();
@@ -32,7 +28,7 @@ class EnhancedBlocks extends Component {
   };
 
   componentDidMount() {
-    this.props.getEnhancedBlocks();
+    this.props.getEnhancedBlocks(5);
   }
 
   render() {

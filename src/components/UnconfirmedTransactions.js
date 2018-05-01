@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
@@ -7,65 +8,53 @@ import config from '../config';
 import { path } from 'ramda';
 import moment from 'moment';
 import * as actions from '../actions';
-import styled from 'styled-components';
 
-const messages = path([ 'messages', 'tooltips', 'blockListHeader' ], config);
+const messages = path([ 'messages', 'tooltips', 'unconfirmedTransaction' ], config);
+const TxsWrapper = styled.div``;
+class UnconfirmedTransactions extends Component {
+  componentDidMount() {
+    this.props.getUnconfirmedTransactions(this.props.limit)
+  }
 
-const BlocksListHeader = styled.h2`
-  padding-left: 20px;
-  font-weight: bold;
-`;
-
-class Blocks extends Component {
-  getRow = block => {
-    const age = moment(block.time * 1000).fromNow();
+  getRow = transation => {
+    const age = moment(transation.time * 1000).fromNow();
 
     return (
       <TableRow key={uniqid()}>
-        <TableRowColumn>{block.height}</TableRowColumn>
+        <TableRowColumn>{transation.tx_index}</TableRowColumn>
         <TableRowColumn>{age}</TableRowColumn>
-        <TableRowColumn>{block.hash}</TableRowColumn>
-        <TableRowColumn>{block.main_chain ? 'True' : 'False'}</TableRowColumn>
+        <TableRowColumn>{transation.hash}</TableRowColumn>
+        <TableRowColumn>{transation.size} bytes</TableRowColumn>
       </TableRow>
     );
   };
 
-  componentDidMount() {
-    this.props.getBlocks();
-  }
-
   render() {
     return (
-      <div>
-        <BlocksListHeader>Latest Blocks Details</BlocksListHeader>
+      <TxsWrapper>
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
-              <TableHeaderColumn tooltip={messages.height}>Height</TableHeaderColumn>
+              <TableHeaderColumn tooltip={messages.index}>Index</TableHeaderColumn>
               <TableHeaderColumn tooltip={messages.age}>Age</TableHeaderColumn>
               <TableHeaderColumn tooltip={messages.hash}>Hash</TableHeaderColumn>
-              <TableHeaderColumn tooltip={messages.mainChain}>Main Chain</TableHeaderColumn>
+              <TableHeaderColumn tooltip={messages.size}>Size (bytes)</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody stripedRows={true} displayRowCheckbox={false} showRowHover={false}>
-            {this.props.blocks.map(this.getRow)}
+            {this.props.unconfirmedTransactions.map(this.getRow)}
           </TableBody>
         </Table>
-      </div>
+      </TxsWrapper>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  blocks: state.blocks
+  unconfirmedTransactions: state.unconfirmedTransactions
 });
 
 const matchDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getBlocks: actions.blocksRequested
-    },
-    dispatch
-  );
+  bindActionCreators({ getUnconfirmedTransactions: actions.unconfirmedTransactionsRequested }, dispatch);
 
-export default connect(mapStateToProps, matchDispatchToProps)(Blocks);
+export default connect(mapStateToProps, matchDispatchToProps)(UnconfirmedTransactions);

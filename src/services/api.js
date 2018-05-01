@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { path } from 'ramda';
 
-const getTodaysBlocksHashes = async (limit) => {
+const getTodaysBlocksHashes = async (limit=5) => {
   const currentTime = Date.now();
 
   try {
@@ -50,13 +50,36 @@ const get24HourBitcoinStats = async() => {
   return stats;
 };
 
+const getLatestBlock = async() => {
+  try {
+    const block = await axios.get('https://blockchain.info/latestblock');
+
+    return block;
+  } catch(err) {
+    throw new Error(`Could not get latest block: ${err}`);
+  }
+};
+
+const getUnconfirmedTransactions = async(limit=5) => {
+  try {
+    const data = await axios.get('https://blockchain.info/unconfirmed-transactions?format=json');
+    const txsPath = ['data','txs'];
+    const txs = path(txsPath, data);
+
+    return txs.length > limit ? txs.slice(0, limit) : txs;
+  } catch(err) {
+    throw new Error(`Could not get latest transactions: ${err}`);
+  }
+}
 
 const api = {
   getTodaysBlocksHashes,
   getSingleBlockDetailsByHash,
   getTodaysEnhancedBlocks,
   get24HourBitcoinStats,
-  getTodaysBlocks
+  getTodaysBlocks,
+  getLatestBlock,
+  getUnconfirmedTransactions
 };
 
 export default api;

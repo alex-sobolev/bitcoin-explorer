@@ -5,7 +5,7 @@ const { actionTypes } = config;
 
 const blocks = (state=[], action) => {
   switch(action.type) {
-    case actionTypes.BLOCKS_RECEIVED:
+    case actionTypes.BLOCKS:
       return action.blocks;
 
     default:

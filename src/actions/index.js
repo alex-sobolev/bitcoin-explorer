@@ -1,29 +1,33 @@
-import config from '../config';
+import config from '../config/index';
 // import uniqid from 'uniqid';
 import api from '../services/api';
 
 const { actionTypes } = config;
 
-export const testTypeReceived = () => ({
-  type: actionTypes.testType,
-});
+export const enhancedBlocksRequested = limit => async dispatch => {
+  const blocksHashes = await api.getTodaysBlocksHashes(limit);
+  const blocks = await api.getTodaysEnhancedBlocks(blocksHashes);
 
-export const enhancedBlocksRequested = () => async (dispatch) => {
-    const blocksHashes = await api.getTodaysBlocksHashes(5);
-    const blocks = await api.getTodaysEnhancedBlocks(blocksHashes);
+  dispatch({
+    type: actionTypes.ENHANCED_BLOCKS,
+    blocks
+  });
+};
 
-    dispatch({
-      type: actionTypes.ENHANCED_BLOCKS_RECEIVED,
-      blocks
-    });
-  };
+export const blocksRequested = () => async dispatch => {
+  const blocks = await api.getTodaysBlocks();
 
-export const blocksRequested = () =>
-  async (dispatch) => {
-    const blocks = await api.getTodaysBlocks();
+  dispatch({
+    type: actionTypes.BLOCKS,
+    blocks
+  });
+};
 
-    dispatch({
-      type: actionTypes.BLOCKS_RECEIVED,
-      blocks
-    });
-  };
+export const unconfirmedTransactionsRequested = (limit=10) => async dispatch => {
+  const transactions = await api.getUnconfirmedTransactions(limit);
+
+  dispatch({
+    type: actionTypes.UNCONFIRMED_TRANSACTIONS,
+    transactions
+  })
+}
