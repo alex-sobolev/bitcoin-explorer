@@ -6,7 +6,9 @@ export default {
       transactions: "amount of transactions in block",
       total: "total amount of BTC sent in block",
       size: "size of block",
-      fee: "estimated fees paid for all transactions in block"
+      fee: "estimated fees paid for all transactions in block",
+      hash: "block's hash",
+      mainChain: "Is on main bitcoin blockchain"
     },
     unconfirmedTransaction: {
       hash: "Transaction's hash",

@@ -1,5 +1,4 @@
 import config from '../config/index';
-// import uniqid from 'uniqid';
 import api from '../services/api';
 
 const { actionTypes } = config;
@@ -23,11 +22,30 @@ export const blocksRequested = () => async dispatch => {
   });
 };
 
-export const unconfirmedTransactionsRequested = (limit=10) => async dispatch => {
+export const unconfirmedTransactionsRequested = (limit = 10) => async dispatch => {
   const transactions = await api.getUnconfirmedTransactions(limit);
 
   dispatch({
     type: actionTypes.UNCONFIRMED_TRANSACTIONS,
     transactions
-  })
-}
+  });
+};
+
+export const blockDetailsRequested = param => async dispatch => {
+  const block =
+    param.length === 6 ? await api.getSingleBlockDetailsByHeight(Number(param)) : await api.getSingleBlockDetailsByHash(param);
+
+  dispatch({
+    type: actionTypes.BLOCK,
+    block
+  });
+};
+
+export const transactionDetailsRequested = txHash => async dispatch => {
+  const transaction = await api.getSingleTransactionDetailsByHash(txHash);
+
+  dispatch({
+    type: actionTypes.TRANSACTION,
+    transaction
+  });
+};

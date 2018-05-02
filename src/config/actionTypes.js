@@ -1,4 +1,5 @@
-export const TEST_TYPE = 'TEST_TYPE';
 export const ENHANCED_BLOCKS = 'ENHANCED_BLOCKS';
 export const BLOCKS = 'BLOCKS';
 export const UNCONFIRMED_TRANSACTIONS = 'UNCONFIRMED_TRANSACTIONS';
+export const BLOCK = 'BLOCK';
+export const TRANSACTION = 'TRANSACTION';

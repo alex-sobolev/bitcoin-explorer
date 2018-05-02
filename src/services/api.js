@@ -19,16 +19,26 @@ const getSingleBlockDetailsByHash = async (blockHash = '') => {
   try {
     const block = await axios.get(`https://blockchain.info/rawblock/${blockHash}`);
 
-    return block;
+    return block.data;
   } catch(err) {
     throw new Error(`Could not get block details for block hash ${blockHash}: ${err}`);
+  }
+};
+
+const getSingleBlockDetailsByHeight = async (blockHeight) => {
+  try {
+    const block = await axios.get(`https://blockchain.info/block-height/${blockHeight}?format=json`);
+
+    return path(['data', 'blocks', 0], block);
+  } catch(err) {
+    throw new Error(`Could not get block details for block height ${blockHeight}: ${err}`);
   }
 };
 
 const getTodaysEnhancedBlocks = (blockHashes = []) => {
   const blocksPromised = blockHashes.map(getSingleBlockDetailsByHash);
 
-  return Promise.all(blocksPromised).then(blocks => blocks.map(block => block.data));
+  return Promise.all(blocksPromised).then(blocks => blocks.map(block => block));
 };
 
 const getTodaysBlocks = async () => {
@@ -72,14 +82,27 @@ const getUnconfirmedTransactions = async(limit=5) => {
   }
 }
 
+const getSingleTransactionDetailsByHash = async (txHash) => {
+  try {
+    const data = await axios.get(`https://blockchain.info/rawtx/${txHash}`);
+    const transaction = data.data;
+
+    return transaction;
+  } catch(err) {
+    throw new Error(`Could not get transaction for hash ${txHash}: ${err}`);
+  }
+}
+
 const api = {
   getTodaysBlocksHashes,
   getSingleBlockDetailsByHash,
+  getSingleBlockDetailsByHeight,
   getTodaysEnhancedBlocks,
   get24HourBitcoinStats,
   getTodaysBlocks,
   getLatestBlock,
-  getUnconfirmedTransactions
+  getUnconfirmedTransactions,
+  getSingleTransactionDetailsByHash
 };
 
 export default api;
