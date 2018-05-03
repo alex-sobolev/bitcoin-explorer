@@ -28,6 +28,8 @@ const DefaultBlockInfo = styled.div`
   margin: 0 auto;
 `;
 
+const HeightNumber = styled.span`color: ${deepPurpleA400};`;
+
 const Default = props => (
   <DefaultBlockInfo>
     <div>No block selected.</div>
@@ -64,7 +66,10 @@ class Block extends Component {
 
     return (
       <div>
-        <BlockDetailsHeader>{`Block Summary for ${this.props.block.height}`}</BlockDetailsHeader>
+        <BlockDetailsHeader>
+          Block Summary for
+          <HeightNumber> {this.props.block.height}</HeightNumber>
+        </BlockDetailsHeader>
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>

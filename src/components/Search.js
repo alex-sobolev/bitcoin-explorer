@@ -21,7 +21,7 @@ const styles = {
 
 class Search extends Component {
   state = {
-    searchValue: ''
+    searchValue: null
   };
 
   onInputValueChange = event => {
@@ -48,6 +48,8 @@ class Search extends Component {
       } else {
         throw new Error('Incorrect search parameter');
       }
+
+      this.setState({searchValue: null});
     }
   }
 
@@ -61,6 +63,7 @@ class Search extends Component {
           floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
           onChange={this.onInputValueChange}
           onKeyUp={this.onKeyUp}
+          value={this.state.searchValue || ''}
         />
       </SearchWrapper>
     );
