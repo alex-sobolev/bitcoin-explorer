@@ -10,11 +10,13 @@ export default {
       hash: "block's hash",
       mainChain: "Is on main bitcoin blockchain"
     },
-    unconfirmedTransaction: {
+    transaction: {
       hash: "Transaction's hash",
       age: "Transaction's age",
       index: "Transaction's index",
       size: "Transaction's sizes in bytes",
+      creationTime: "Transaction's creation time",
+      btcValue: "BTC sent"
     }
   }
 };

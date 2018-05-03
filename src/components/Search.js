@@ -41,8 +41,10 @@ class Search extends Component {
 
       if ((value.length === 6 && !isNaN(value)) || value.length === 64 && value.slice(0, 5) === '00000') {
         this.props.getBlockDetails(value);
+        this.props.changeTab('block');
       } else if (value.length === 64) {
         this.props.getTransactionDetails(value);
+        this.props.changeTab('transaction');
       } else {
         throw new Error('Incorrect search parameter');
       }
@@ -73,7 +75,8 @@ const matchDispatchToProps = dispatch =>
   bindActionCreators(
     {
       getBlockDetails: actions.blockDetailsRequested,
-      getTransactionDetails: actions.transactionDetailsRequested
+      getTransactionDetails: actions.transactionDetailsRequested,
+      changeTab: actions.tabSelected
     },
     dispatch
   );

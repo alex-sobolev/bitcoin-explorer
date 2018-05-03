@@ -23,7 +23,6 @@ class Home extends Component {
         <TransactionHeader>Latest Transactions (Unconfirmed)</TransactionHeader>
         <UnconfirmedTransactions limit={10} />
         <div>Last month Bitcoin price graph</div>
-        <div>Search filter, taking as inputs block height and transaction hash</div>
       </div>
     );
   }

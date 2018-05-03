@@ -9,7 +9,7 @@ import { path } from 'ramda';
 import moment from 'moment';
 import * as actions from '../actions';
 
-const messages = path([ 'messages', 'tooltips', 'unconfirmedTransaction' ], config);
+const messages = path([ 'messages', 'tooltips', 'transaction' ], config);
 const TxsWrapper = styled.div``;
 class UnconfirmedTransactions extends Component {
   componentDidMount() {

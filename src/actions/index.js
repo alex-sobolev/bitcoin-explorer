@@ -33,7 +33,9 @@ export const unconfirmedTransactionsRequested = (limit = 10) => async dispatch =
 
 export const blockDetailsRequested = param => async dispatch => {
   const block =
-    param.length === 6 ? await api.getSingleBlockDetailsByHeight(Number(param)) : await api.getSingleBlockDetailsByHash(param);
+    param.length === 6
+      ? await api.getSingleBlockDetailsByHeight(Number(param))
+      : await api.getSingleBlockDetailsByHash(param);
 
   dispatch({
     type: actionTypes.BLOCK,
@@ -49,3 +51,8 @@ export const transactionDetailsRequested = txHash => async dispatch => {
     transaction
   });
 };
+
+export const tabSelected = tab => ({
+  type: actionTypes.TAB_SELECTED,
+  tab
+});

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled, { injectGlobal } from 'styled-components';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -7,6 +8,8 @@ import Home from './Home';
 import Block from './Block';
 import Blocks from './Blocks';
 import Transaction from './Transaction';
+import * as actions from '../actions';
+import { bindActionCreators } from 'redux';
 
 injectGlobal`
   ${globalStyles}
@@ -19,15 +22,19 @@ class App extends Component {
     jack: '3d'
   };
 
+  onTabClick = tabValue => {
+    this.props.selectTab(tabValue);
+  }
+
   render() {
     return (
       <MuiThemeProvider>
         <AppWrapper>
-          <Tabs>
-            <Tab label="Home"><Home /></Tab>
-            <Tab label="Blocks"><Blocks /></Tab>
-            <Tab label="Block"><Block /></Tab>
-            <Tab label="Transaction"><Transaction /></Tab>
+          <Tabs value={this.props.selectedTab}>
+            <Tab value='home' label='Home' onActive={() => this.onTabClick('home')}><Home /></Tab>
+            <Tab value='blocks' label='Blocks' onActive={() => this.onTabClick('blocks')}><Blocks /></Tab>
+            <Tab value='block' label='Block' onActive={() => this.onTabClick('block')}><Block /></Tab>
+            <Tab value='transaction' label='Transaction' onActive={() => this.onTabClick('transaction')}><Transaction /></Tab>
           </Tabs>
         </AppWrapper>
       </MuiThemeProvider>
@@ -35,4 +42,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  selectedTab: state.selectedTab
+});
+
+const matchDispatchToProps = dispatch =>
+  bindActionCreators({
+    selectTab: actions.tabSelected
+  }, dispatch);
+
+export default connect(mapStateToProps, matchDispatchToProps)(App);

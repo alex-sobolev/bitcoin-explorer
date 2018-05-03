@@ -3,3 +3,4 @@ export const BLOCKS = 'BLOCKS';
 export const UNCONFIRMED_TRANSACTIONS = 'UNCONFIRMED_TRANSACTIONS';
 export const BLOCK = 'BLOCK';
 export const TRANSACTION = 'TRANSACTION';
+export const TAB_SELECTED = 'TAB_SELECTED';
