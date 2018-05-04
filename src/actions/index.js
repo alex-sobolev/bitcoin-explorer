@@ -13,12 +13,13 @@ export const enhancedBlocksRequested = limit => async dispatch => {
   });
 };
 
-export const blocksRequested = () => async dispatch => {
+export const blocksRequested = limitPerPage => async dispatch => {
   const blocks = await api.getTodaysBlocks();
 
   dispatch({
     type: actionTypes.BLOCKS,
-    blocks
+    blocks,
+    limitPerPage
   });
 };
 
@@ -55,4 +56,14 @@ export const transactionDetailsRequested = txHash => async dispatch => {
 export const tabSelected = tab => ({
   type: actionTypes.TAB_SELECTED,
   tab
+});
+
+export const activeBlockPageUpdated = pageNumber => ({
+  type: actionTypes.ACTIVE_BLOCK_PAGE,
+  pageNumber
+});
+
+export const activeBlockTransactionsPageUpdated = pageNumber => ({
+  type: actionTypes.ACTIVE_BLOCK_TRANSACTIONS_PAGE,
+  pageNumber
 });

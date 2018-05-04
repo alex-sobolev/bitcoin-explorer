@@ -28,7 +28,6 @@ const range = (start, end) => Array.from({ length: end - start }, (num, index) =
 
 class Pagination extends Component {
   state = {
-    currentPage: 1,
     activeGroup: this.getInitialGroup()
   };
 
@@ -44,10 +43,14 @@ class Pagination extends Component {
     return range(1, pageBtnLimit + 1);
   }
 
+  getPagesAmount() {
+    return Math.ceil(this.props.items.length / this.props.limit);
+  }
+
   pagesAmount = Math.ceil(this.props.items.length / this.props.limit);
 
   getLastGroup() {
-    const lastPage = this.pagesAmount;
+    const lastPage = this.getPagesAmount();
     const pageBtnLimit = config.constants.paginationBtnLimit;
     const startPage = lastPage - pageBtnLimit;
 
@@ -60,9 +63,15 @@ class Pagination extends Component {
     const activeGroupLastPage = activeGroup[activeGroupLastIndex];
     const activeGroupFirstPage = activeGroup[0];
     const firstPage = 1;
-    const lastPage = this.pagesAmount;
+    const lastPage = this.getPagesAmount();
 
-    this.setState({ currentPage: num });
+    if (this.props.view === 'blocks') {
+      this.props.updateCurrentBlocksPage(num);
+    }
+
+    if (this.props.view === 'blockTransactions') {
+      this.props.updateBlockTransactionsPage(num);
+    }
 
     if (num > activeGroupLastPage) {
       this.setState({
@@ -96,45 +105,54 @@ class Pagination extends Component {
   }
 
   buildPageBtns() {
+    const currentPage = this.getCurrentPage();
+
     return this.state.activeGroup.map(item => (
       <FlatButton
         key={uniqid()}
         label={`${item}`}
         secondary={true}
         disabled={false}
-        style={item === this.state.currentPage ? styles.activeBtn : styles.btn}
+        style={item === currentPage ? styles.activeBtn : styles.btn}
         onClick={() => this.changePage(item)}
       />
     ));
   }
 
+  getCurrentPage() {
+    return this.props.view === 'blocks' ? this.props.activeBlockPage : this.props.activeBlockTransactionsPage;
+  }
+
   render() {
+    const currentPage = this.getCurrentPage();
+    const pagesAmount = this.getPagesAmount();
+
     return (
       <PaginationWrapper>
         <FlatButton
           label="First"
           onClick={() => this.changePage(1)}
           primary={true}
-          disabled={this.state.currentPage === 1 ? true : false}
+          disabled={currentPage === 1 ? true : false}
         />
         <FlatButton
           label="<"
-          onClick={() => this.changePage(this.state.currentPage - 1)}
+          onClick={() => this.changePage(currentPage - 1)}
           primary={true}
-          disabled={this.state.currentPage === 1 ? true : false}
+          disabled={currentPage === 1 ? true : false}
         />
         {this.buildPageBtns()}
         <FlatButton
           label=">"
-          onClick={() => this.changePage(this.state.currentPage + 1)}
+          onClick={() => this.changePage(currentPage + 1)}
           primary={true}
-          disabled={this.state.currentPage === this.pagesAmount ? true : false}
+          disabled={currentPage === pagesAmount ? true : false}
         />
         <FlatButton
           label="Last"
-          onClick={() => this.changePage(this.pagesAmount)}
+          onClick={() => this.changePage(pagesAmount)}
           primary={true}
-          disabled={this.state.currentPage === this.pagesAmount ? true : false}
+          disabled={currentPage === pagesAmount ? true : false}
         />
       </PaginationWrapper>
     );
@@ -142,13 +160,15 @@ class Pagination extends Component {
 }
 
 const mapStateToProps = state => ({
-  blocks: state.blocks
+  activeBlockPage: state.activeBlockPage,
+  activeBlockTransactionsPage: state.activeBlockTransactionsPage
 });
 
 const matchDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getBlocks: actions.blocksRequested
+      updateCurrentBlocksPage: actions.activeBlockPageUpdated,
+      updateBlockTransactionsPage: actions.activeBlockTransactionsPageUpdated
     },
     dispatch
   );

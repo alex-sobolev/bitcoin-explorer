@@ -32,13 +32,15 @@ class Blocks extends Component {
   };
 
   componentDidMount() {
-    this.props.getBlocks();
+    this.props.getBlocks(7);
   }
 
   render() {
     if (!this.props.blocks.length) {
       return null;
     }
+
+    const blockIndex = this.props.activeBlockPage - 1;
 
     return (
       <div>
@@ -53,17 +55,19 @@ class Blocks extends Component {
             </TableRow>
           </TableHeader>
           <TableBody stripedRows={true} displayRowCheckbox={false} showRowHover={false}>
-            {this.props.blocks.map(this.getRow)}
+            {this.props.splittedBlocks[blockIndex].map(this.getRow)}
           </TableBody>
         </Table>
-        <Pagination limit={5} items={this.props.blocks}/>
+        <Pagination limit={7} items={this.props.blocks} view='blocks'/>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  blocks: state.blocks
+  blocks: state.blocks,
+  splittedBlocks: state.splittedBlocks,
+  activeBlockPage: state.activeBlockPage
 });
 
 const matchDispatchToProps = dispatch =>

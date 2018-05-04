@@ -5,6 +5,8 @@ import unconfirmedTransactions from './unconfirmedTransactions';
 import block from './block';
 import transaction from './transaction';
 import selectedTab from './selectedTab';
+import splittedBlocks from './splittedBlocks';
+import activeBlockPage from './activeBlockPage';
 
 export default combineReducers({
   enhancedBlocks,
@@ -12,5 +14,7 @@ export default combineReducers({
   unconfirmedTransactions,
   block,
   transaction,
-  selectedTab
+  selectedTab,
+  splittedBlocks,
+  activeBlockPage
 });
