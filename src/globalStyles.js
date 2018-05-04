@@ -10,10 +10,14 @@
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+  html, body {
+    height: 100%;
+  }
+
   body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-  };
+  }
 `;
 
 export default globalStyles;

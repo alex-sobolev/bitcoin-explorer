@@ -8,6 +8,7 @@ import { path } from 'ramda';
 import moment from 'moment';
 import * as actions from '../actions';
 import styled from 'styled-components';
+import Pagination from './Pagination';
 
 const messages = path([ 'messages', 'tooltips', 'blockListHeader' ], config);
 
@@ -35,6 +36,10 @@ class Blocks extends Component {
   }
 
   render() {
+    if (!this.props.blocks.length) {
+      return null;
+    }
+
     return (
       <div>
         <BlocksListHeader>Latest Blocks Details</BlocksListHeader>
@@ -51,6 +56,7 @@ class Blocks extends Component {
             {this.props.blocks.map(this.getRow)}
           </TableBody>
         </Table>
+        <Pagination limit={5} items={this.props.blocks}/>
       </div>
     );
   }
