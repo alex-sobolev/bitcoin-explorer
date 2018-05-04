@@ -10,6 +10,7 @@ import { deepPurpleA400 } from 'material-ui/styles/colors';
 import moment from 'moment';
 import uniqid from 'uniqid';
 import config from '../config';
+import Pagination from './Pagination';
 
 const messages = path([ 'messages', 'tooltips', 'transaction' ], config);
 const satoshiDecimal = 100000000;
@@ -58,6 +59,8 @@ class Block extends Component {
   };
 
   render() {
+    const pageIndex = this.props.activeBlockTransactionsPage - 1;
+
     if (!this.props.block.hash) {
       return <Default goHome={this.navigateHome} />;
     }
@@ -128,9 +131,10 @@ class Block extends Component {
             </TableRow>
           </TableHeader>
           <TableBody stripedRows={true} displayRowCheckbox={false} showRowHover={false}>
-            {this.props.block.tx.map(this.getRow)}
+            {this.props.splittedBlockTransactions[pageIndex].map(this.getRow)}
           </TableBody>
         </Table>
+        <Pagination limit={15} items={this.props.block.tx} view='blockTransactions' />
       </div>
     );
   }
@@ -138,7 +142,10 @@ class Block extends Component {
 
 const mapStateToProps = state => ({
   selectedTab: state.selectedTab,
-  block: state.block
+  block: state.block,
+  splittedBlockTransactions: state.splittedBlockTransactions,
+  activeBlockTransactionsPage: state.activeBlockTransactionsPage
+  
 });
 
 const matchDispatchToProps = dispatch =>

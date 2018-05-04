@@ -32,7 +32,7 @@ export const unconfirmedTransactionsRequested = (limit = 10) => async dispatch =
   });
 };
 
-export const blockDetailsRequested = param => async dispatch => {
+export const blockDetailsRequested = (param, limitPerPage) => async dispatch => {
   const block =
     param.length === 6
       ? await api.getSingleBlockDetailsByHeight(Number(param))
@@ -40,7 +40,8 @@ export const blockDetailsRequested = param => async dispatch => {
 
   dispatch({
     type: actionTypes.BLOCK,
-    block
+    block,
+    limitPerPage
   });
 };
 

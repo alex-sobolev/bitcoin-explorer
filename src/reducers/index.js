@@ -7,6 +7,8 @@ import transaction from './transaction';
 import selectedTab from './selectedTab';
 import splittedBlocks from './splittedBlocks';
 import activeBlockPage from './activeBlockPage';
+import activeBlockTransactionsPage from './activeBlockTransactionsPage';
+import splittedBlockTransactions from './splittedBlockTransactions';
 
 export default combineReducers({
   enhancedBlocks,
@@ -16,5 +18,7 @@ export default combineReducers({
   transaction,
   selectedTab,
   splittedBlocks,
-  activeBlockPage
+  activeBlockPage,
+  activeBlockTransactionsPage,
+  splittedBlockTransactions
 });

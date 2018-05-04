@@ -40,7 +40,7 @@ class Search extends Component {
       const value = this.state.searchValue;
 
       if ((value.length === 6 && !isNaN(value)) || value.length === 64 && value.slice(0, 5) === '00000') {
-        this.props.getBlockDetails(value);
+        this.props.getBlockDetails(value, 15);
         this.props.changeTab('block');
       } else if (value.length === 64) {
         this.props.getTransactionDetails(value);

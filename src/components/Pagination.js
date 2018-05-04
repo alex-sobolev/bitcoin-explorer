@@ -47,8 +47,6 @@ class Pagination extends Component {
     return Math.ceil(this.props.items.length / this.props.limit);
   }
 
-  pagesAmount = Math.ceil(this.props.items.length / this.props.limit);
-
   getLastGroup() {
     const lastPage = this.getPagesAmount();
     const pageBtnLimit = config.constants.paginationBtnLimit;
