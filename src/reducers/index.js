@@ -9,6 +9,7 @@ import splittedBlocks from './splittedBlocks';
 import activeBlockPage from './activeBlockPage';
 import activeBlockTransactionsPage from './activeBlockTransactionsPage';
 import splittedBlockTransactions from './splittedBlockTransactions';
+import priceChartData from './priceChartData';
 
 export default combineReducers({
   enhancedBlocks,
@@ -20,5 +21,6 @@ export default combineReducers({
   splittedBlocks,
   activeBlockPage,
   activeBlockTransactionsPage,
-  splittedBlockTransactions
+  splittedBlockTransactions,
+  priceChartData
 });

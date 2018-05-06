@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import EnhancedBlocks from './EnhancedBlocks';
 import UnconfirmedTransactions from './UnconfirmedTransactions';
 import Search from './Search';
+import PriceChart from './PriceChart';
 
 const BlocksHeader = styled.h2`
   font-weight: bold;
@@ -22,7 +23,7 @@ class Home extends Component {
         <EnhancedBlocks limit={5} />
         <TransactionHeader>Latest Transactions (Unconfirmed)</TransactionHeader>
         <UnconfirmedTransactions limit={10} />
-        <div>Last month Bitcoin price graph</div>
+        <PriceChart />
       </div>
     );
   }

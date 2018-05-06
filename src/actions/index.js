@@ -68,3 +68,12 @@ export const activeBlockTransactionsPageUpdated = pageNumber => ({
   type: actionTypes.ACTIVE_BLOCK_TRANSACTIONS_PAGE,
   pageNumber
 });
+
+export const priceChartDataReceived = period => async dispatch => {
+  const priceData = await api.getPriceChartData(period);
+
+  dispatch ({
+    type: actionTypes.PRICE_CHART,
+    priceData
+  });
+};

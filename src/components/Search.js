@@ -58,7 +58,7 @@ class Search extends Component {
       <SearchWrapper>
         <TextField
           fullWidth={true}
-          floatingLabelText="Search for block by height or transaction by hash"
+          floatingLabelText="Search for block or transaction (height / hash)"
           floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
           onChange={this.onInputValueChange}
